@@ -89,16 +89,19 @@ body, html {
     opacity: 0.7;
 }
 
-/* --- UPDATED MOBILE LAYOUT (TO MATCH NEW DESKTOP STYLE) --- */
 @media (max-width: 1024px) {
     
     .overlay {
         position: relative;
+        /* Fix for Safari mobile height issues */
         height: 100vh;
-        padding: 40px; /* Matching the cleaner spacing */
+        height: -webkit-fill-available; 
+        width: 100%;
+        padding: 40px;
+        overflow: hidden;
     }
 
-    /* 1. COMING SOON - Centered with New Desktop Styles */
+    /* 1. COMING SOON */
     .top-section {
         position: absolute;
         top: 50%;
@@ -106,47 +109,50 @@ body, html {
         transform: translate(-50%, -50%);
         width: 100%;
         text-align: center;
+        z-index: 10;
     }
 
     .coming-soon {
-        font-size: 0.75rem;     /* Slightly smaller than desktop but same weight */
-        letter-spacing: 0.10em; /* Matching your new tight spacing */
-        font-weight: 500;       /* Matching your new weight */
-        display: block;
+        font-size: 0.75rem;
+        letter-spacing: 0.10em;
+        font-weight: 500;
     }
 
     /* 2. TAGLINE - Top Left */
     .tagline {
         position: absolute;
-        top: 40px;
-        left: 40px;
+        top: 60px; /* Increased slightly to clear the browser UI */
+        left: 30px;
         font-size: 0.7rem;
         letter-spacing: 0.10em;
         font-weight: 500;
         text-align: left;
-        width: 80%; /* Prevents text from hitting the edge */
+        width: 80%;
     }
 
-    /* 3. EMAIL - Pinned under Tagline */
+    /* 3. EMAIL - Under Tagline */
     .email-link {
         position: absolute;
-        top: 58px; 
-        left: 40px;
+        top: 78px; 
+        left: 30px;
         font-size: 0.7rem;
         letter-spacing: 0.10em;
         font-weight: 500;
     }
 
     /* 4. LOGO - Bottom Left */
+    /* If the logo is missing, it's often because Safari thinks 
+       it's 'behind' the bottom navigation bar. */
     .main-logo {
         position: absolute;
-        bottom: 40px;
-        left: 40px;
-        max-width: 290px; /* Scaled for mobile but larger to match desktop vibe */
+        bottom: 60px; /* Pushed up to avoid Safari's bottom bar */
+        left: 30px;
+        max-width: 290px;
         height: auto;
+        display: block !important; /* Forces Safari to render it */
+        z-index: 20;
     }
 
-    /* Reset container */
     .footer-row {
         position: static;
         display: block;
