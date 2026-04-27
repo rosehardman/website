@@ -89,50 +89,16 @@ body, html {
     opacity: 0.7;
 }
 
-/* --- MOBILE LAYOUT (1024px) --- */
+/* --- UPDATED MOBILE LAYOUT (TO MATCH NEW DESKTOP STYLE) --- */
 @media (max-width: 1024px) {
     
-    /* 1. We keep the overlay as the anchor */
     .overlay {
         position: relative;
         height: 100vh;
+        padding: 40px; /* Matching the cleaner spacing */
     }
 
-    /* 2. Pin Supporting Copy to Top Left */
-    /* Even though these are inside .footer-row in HTML, 
-       absolute positioning lets us move them to the top of the screen. */
-    .tagline {
-        position: absolute;
-        top: 40px;
-        left: 40px;
-        text-align: left;
-        margin: 0;
-        font-size: 0.7rem;
-        letter-spacing: 0.10em;
-    }
-
-    .email-link {
-        position: absolute;
-        top: 60px; /* Sits right under the tagline */
-        left: 40px;
-        text-align: left;
-        margin: 0;
-        font-size: 0.7rem;
-        letter-spacing: 0.10em;
-    }
-
-    /* 3. Pin Logo to Bottom Left */
-    .main-logo {
-        position: absolute;
-        bottom: 40px;
-        left: 40px;
-        max-width: 300px;
-        margin: 0;
-    }
-
-    /* 4. Coming Soon stays dead-center */
-    /* Since its desktop code is already absolute/50%/50%, 
-       it will stay centered unless we tell it otherwise. */
+    /* 1. COMING SOON - Centered with New Desktop Styles */
     .top-section {
         position: absolute;
         top: 50%;
@@ -141,8 +107,46 @@ body, html {
         width: 100%;
         text-align: center;
     }
-    
-    /* Ensure the footer-row container itself doesn't block clicks */
+
+    .coming-soon {
+        font-size: 0.75rem;     /* Slightly smaller than desktop but same weight */
+        letter-spacing: 0.10em; /* Matching your new tight spacing */
+        font-weight: 500;       /* Matching your new weight */
+        display: block;
+    }
+
+    /* 2. TAGLINE - Top Left */
+    .tagline {
+        position: absolute;
+        top: 40px;
+        left: 40px;
+        font-size: 0.7rem;
+        letter-spacing: 0.10em;
+        font-weight: 500;
+        text-align: left;
+        width: 80%; /* Prevents text from hitting the edge */
+    }
+
+    /* 3. EMAIL - Pinned under Tagline */
+    .email-link {
+        position: absolute;
+        top: 58px; 
+        left: 40px;
+        font-size: 0.7rem;
+        letter-spacing: 0.10em;
+        font-weight: 500;
+    }
+
+    /* 4. LOGO - Bottom Left */
+    .main-logo {
+        position: absolute;
+        bottom: 40px;
+        left: 40px;
+        max-width: 290px; /* Scaled for mobile but larger to match desktop vibe */
+        height: auto;
+    }
+
+    /* Reset container */
     .footer-row {
         position: static;
         display: block;
