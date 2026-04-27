@@ -1,5 +1,4 @@
 /* Reset and Base Styles */
-
 * {
     margin: 0;
     padding: 0;
@@ -8,16 +7,11 @@
 
 body, html {
     height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #ffffff;
-    background-color: #1a230f; /* Dark fallback */
-    overflow: hidden; /* This is enough to stop scrolling */
+    overflow: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* position: fixed; <--- REMOVE THIS to enable translucent Safari bars */
 }
 
 /* 1. Video Background */
@@ -25,9 +19,10 @@ body, html {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh; /* Use vh here to fill the base window */
+    width: 100%;
+    height: 100%;
     z-index: -1;
+    background-color: #1a230f; 
 }
 
 #bg-video {
@@ -40,7 +35,7 @@ body, html {
 .overlay {
     height: 100vh;
     width: 100%;
-    position: relative; /* This is the anchor for absolute positioning */
+    position: relative;
     background: rgba(0, 0, 0, 0.1); 
 }
 
@@ -49,36 +44,37 @@ body, html {
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* Perfect mathematical center */
+    transform: translate(-50%, -50%);
     text-align: center;
     width: 100%;
+    z-index: 2;
 }
 
 .coming-soon {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     letter-spacing: 0.10em;
     font-weight: 500;
     text-transform: uppercase;
 }
 
-/* 4. Footer Row pinned to the bottom */
+/* 4. Desktop Footer Row */
 .footer-row {
     position: absolute;
-    bottom: 60px; /* Distance from bottom */
-    left: 60px;   /* Distance from left */
-    right: 60px;  /* Distance from right */
+    bottom: 60px;
+    left: 60px;
+    right: 60px;
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
+    align-items: baseline;
 }
 
 .main-logo {
-    max-width: 400px;
+    max-width: 320px;
     height: auto;
 }
 
 .tagline, .email-link {
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     letter-spacing: 0.10em;
     font-weight: 500;
     text-transform: uppercase;
@@ -87,27 +83,51 @@ body, html {
 .email-link {
     color: #ffffff;
     text-decoration: none;
-    transition: opacity 0.3s ease;
+    display: block; /* Ensures email sits on its own line on mobile if needed */
 }
 
-.email-link:hover {
-    opacity: 0.7;
-}
-
-/* --- FINAL SAFARI-OPTIMIZED MOBILE LAYOUT --- */
+/* --- MOBILE LAYOUT (1024px) --- */
 @media (max-width: 1024px) {
     
+    /* 1. We keep the overlay as the anchor */
     .overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        /* 'dvh' fills the screen behind the Safari bars for that translucent look */
-        height: 100dvh; 
-        overflow: hidden;
+        position: relative;
+        height: 100vh;
     }
 
-    /* 1. COMING SOON - Centered */
+    /* 2. Pin Supporting Copy to Top Left */
+    /* Even though these are inside .footer-row in HTML, 
+       absolute positioning lets us move them to the top of the screen. */
+    .tagline {
+        position: absolute;
+        top: 40px;
+        left: 40px;
+        text-align: left;
+        margin: 0;
+        font-size: 0.75rem;
+    }
+
+    .email-link {
+        position: absolute;
+        top: 58px; /* Sits right under the tagline */
+        left: 40px;
+        text-align: left;
+        margin: 0;
+        font-size: 0.75rem;
+    }
+
+    /* 3. Pin Logo to Bottom Left */
+    .main-logo {
+        position: absolute;
+        bottom: 40px;
+        left: 40px;
+        max-width: 300px;
+        margin: 0;
+    }
+
+    /* 4. Coming Soon stays dead-center */
+    /* Since its desktop code is already absolute/50%/50%, 
+       it will stay centered unless we tell it otherwise. */
     .top-section {
         position: absolute;
         top: 50%;
@@ -115,53 +135,9 @@ body, html {
         transform: translate(-50%, -50%);
         width: 100%;
         text-align: center;
-        z-index: 10;
     }
-
-    .coming-soon {
-        font-size: 0.75rem;
-        letter-spacing: 0.10em;
-        font-weight: 500;
-    }
-
-    /* 2. TAGLINE - Top Left (Adjusted for the Notch) */
-    .tagline {
-        position: absolute;
-        /* env(safe-area-inset-top) pushes it just enough to clear the clock/notch */
-        top: calc(env(safe-area-inset-top) + 20px); 
-        left: 30px;
-        font-size: 0.7rem;
-        letter-spacing: 0.10em;
-        font-weight: 500;
-        text-align: left;
-        width: 80%;
-    }
-
-    /* 3. EMAIL - Under Tagline */
-    .email-link {
-        position: absolute;
-        /* This places it right under the tagline based on your 78px preference */
-        top: calc(env(safe-area-inset-top) + 42px); 
-        left: 30px;
-        font-size: 0.7rem;
-        letter-spacing: 0.10em;
-        font-weight: 500;
-    }
-
-    /* 4. LOGO - Bottom Left (Adjusted for the Home Bar) */
-    .main-logo {
-        position: absolute;
-        /* This says: Use the safe area + 20px, BUT if safe area is 0, 
-           make sure there is at least 40px of breathing room */
-        bottom: max(40px, calc(env(safe-area-inset-bottom) + 20px)); 
-        left: 30px;
-        max-width: 290px;
-        height: auto;
-        display: block !important;
-        z-index: 20;
-    }
-
-    /* Reset the desktop row container */
+    
+    /* Ensure the footer-row container itself doesn't block clicks */
     .footer-row {
         position: static;
         display: block;
