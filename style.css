@@ -1,4 +1,5 @@
 /* Reset and Base Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -7,11 +8,16 @@
 
 body, html {
     height: 100%;
+    width: 100%; /* Added */
+    margin: 0;   /* Added */
+    padding: 0;  /* Added */
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #ffffff;
-    overflow: hidden;
+    overflow: hidden; 
+    position: fixed; /* Crucial: Stops Safari elastic bounce/white bars */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #1a230f; /* Dark fallback matches your video */
 }
 
 /* 1. Video Background */
@@ -90,18 +96,27 @@ body, html {
 }
 
 @media (max-width: 1024px) {
-    
-    .overlay {
-        position: relative;
-        /* Fix for Safari mobile height issues */
-        height: 100vh;
-        height: -webkit-fill-available; 
-        width: 100%;
-        padding: 40px;
+    /* Prevents the white bounce/bars in Safari */
+    html, body {
+        height: 100%;
         overflow: hidden;
+        position: fixed;
+        width: 100%;
     }
 
-    /* 1. COMING SOON */
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        /* Use the special Safari dynamic height */
+        height: 100dvh; 
+        width: 100%;
+        background: transparent; /* Ensure no accidental gray/white overlays */
+    }
+
+    /* 1. COMING SOON - Perfect Center */
     .top-section {
         position: absolute;
         top: 50%;
@@ -118,10 +133,11 @@ body, html {
         font-weight: 500;
     }
 
-    /* 2. TAGLINE - Top Left */
+    /* 2. TAGLINE - Top Left (Dynamic for Notch) */
     .tagline {
         position: absolute;
-        top: 60px; /* Increased slightly to clear the browser UI */
+        /* Start with your 60px, but add safe area for the notch */
+        top: calc(env(safe-area-inset-top) + 20px); 
         left: 30px;
         font-size: 0.7rem;
         letter-spacing: 0.10em;
@@ -133,24 +149,21 @@ body, html {
     /* 3. EMAIL - Under Tagline */
     .email-link {
         position: absolute;
-        top: 78px; 
+        /* Adjusted based on your 78px tweak */
+        top: calc(env(safe-area-inset-top) + 42px); 
         left: 30px;
         font-size: 0.7rem;
         letter-spacing: 0.10em;
         font-weight: 500;
     }
 
-    /* 4. LOGO - Bottom Left */
-    /* If the logo is missing, it's often because Safari thinks 
-       it's 'behind' the bottom navigation bar. */
+    /* 4. LOGO - Bottom Left (Dynamic for Bottom Bar) */
     .main-logo {
         position: absolute;
-        bottom: 60px; /* Pushed up to avoid Safari's bottom bar */
+        /* This sits it just above the swipe-up bar on iPhone */
+        bottom: env(safe-area-inset-bottom); 
         left: 30px;
         max-width: 290px;
-        height: auto;
-        display: block !important; /* Forces Safari to render it */
-        z-index: 20;
     }
 
     .footer-row {
