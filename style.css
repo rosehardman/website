@@ -8,16 +8,16 @@
 
 body, html {
     height: 100%;
-    width: 100%; /* Added */
-    margin: 0;   /* Added */
-    padding: 0;  /* Added */
+    width: 100%;
+    margin: 0;
+    padding: 0;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #ffffff;
-    overflow: hidden; 
-    position: fixed; /* Crucial: Stops Safari elastic bounce/white bars */
+    background-color: #1a230f; /* Dark fallback */
+    overflow: hidden; /* This is enough to stop scrolling */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #1a230f; /* Dark fallback matches your video */
+    /* position: fixed; <--- REMOVE THIS to enable translucent Safari bars */
 }
 
 /* 1. Video Background */
@@ -25,10 +25,9 @@ body, html {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh; /* Use vh here to fill the base window */
     z-index: -1;
-    background-color: #1a230f; /* Dark forest green fallback */
 }
 
 #bg-video {
@@ -95,28 +94,21 @@ body, html {
     opacity: 0.7;
 }
 
+/* --- FINAL SAFARI-OPTIMIZED MOBILE LAYOUT --- */
 @media (max-width: 1024px) {
-    /* Prevents the white bounce/bars in Safari */
-    html, body {
-        height: 100%;
-        overflow: hidden;
-        position: fixed;
-        width: 100%;
-    }
-
+    
     .overlay {
         position: absolute;
         top: 0;
         left: 0;
-        right: 0;
-        bottom: 0;
-        /* Use the special Safari dynamic height */
-        height: 100dvh; 
         width: 100%;
-        background: transparent; /* Ensure no accidental gray/white overlays */
+        /* 'dvh' fills the screen behind the Safari bars for that translucent look */
+        height: 100dvh; 
+        padding: 0; /* Let absolute positioning handle the spacing */
+        overflow: hidden;
     }
 
-    /* 1. COMING SOON - Perfect Center */
+    /* 1. COMING SOON - Centered */
     .top-section {
         position: absolute;
         top: 50%;
@@ -133,10 +125,10 @@ body, html {
         font-weight: 500;
     }
 
-    /* 2. TAGLINE - Top Left (Dynamic for Notch) */
+    /* 2. TAGLINE - Top Left (Adjusted for the Notch) */
     .tagline {
         position: absolute;
-        /* Start with your 60px, but add safe area for the notch */
+        /* env(safe-area-inset-top) pushes it just enough to clear the clock/notch */
         top: calc(env(safe-area-inset-top) + 20px); 
         left: 30px;
         font-size: 0.7rem;
@@ -149,7 +141,7 @@ body, html {
     /* 3. EMAIL - Under Tagline */
     .email-link {
         position: absolute;
-        /* Adjusted based on your 78px tweak */
+        /* This places it right under the tagline based on your 78px preference */
         top: calc(env(safe-area-inset-top) + 42px); 
         left: 30px;
         font-size: 0.7rem;
@@ -157,15 +149,19 @@ body, html {
         font-weight: 500;
     }
 
-    /* 4. LOGO - Bottom Left (Dynamic for Bottom Bar) */
+    /* 4. LOGO - Bottom Left (Adjusted for the Home Bar) */
     .main-logo {
         position: absolute;
-        /* This sits it just above the swipe-up bar on iPhone */
-        bottom: env(safe-area-inset-bottom); 
+        /* This pins it right above the bottom swipe bar */
+        bottom: calc(env(safe-area-inset-bottom) + 20px); 
         left: 30px;
-        max-width: 290px;
+        max-width: 290px; /* Your preferred size */
+        height: auto;
+        display: block !important;
+        z-index: 20;
     }
 
+    /* Reset the desktop row container */
     .footer-row {
         position: static;
         display: block;
