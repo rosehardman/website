@@ -104,7 +104,6 @@ body, html {
         width: 100%;
         /* 'dvh' fills the screen behind the Safari bars for that translucent look */
         height: 100dvh; 
-        padding: 0; /* Let absolute positioning handle the spacing */
         overflow: hidden;
     }
 
@@ -152,10 +151,11 @@ body, html {
     /* 4. LOGO - Bottom Left (Adjusted for the Home Bar) */
     .main-logo {
         position: absolute;
-        /* This pins it right above the bottom swipe bar */
-        bottom: calc(env(safe-area-inset-bottom) + 20px); 
+        /* This says: Use the safe area + 20px, BUT if safe area is 0, 
+           make sure there is at least 40px of breathing room */
+        bottom: max(40px, calc(env(safe-area-inset-bottom) + 20px)); 
         left: 30px;
-        max-width: 290px; /* Your preferred size */
+        max-width: 290px;
         height: auto;
         display: block !important;
         z-index: 20;
