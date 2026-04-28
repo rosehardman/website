@@ -130,12 +130,18 @@ html, body {
         position: absolute;
         top: calc(40px + env(safe-area-inset-top));
         left: 40px;
+        font-size: clamp(0.75rem, 2.5vw, 0.85rem);
     }
 
     .email-link {
         position: absolute;
         top: calc(58px + env(safe-area-inset-top));
         left: 40px;
+        font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+    }
+
+    .coming-soon {
+        font-size: clamp(0.75rem, 2.5vw, 0.85rem);
     }
 
     .main-logo {
