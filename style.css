@@ -1,27 +1,33 @@
-/* Reset and Base Styles */
+/* =================================================
+   RESET
+================================================= */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-body, html {
+/* =================================================
+   BASE
+================================================= */
+html, body {
     height: 100%;
-    min-height: 100dvh;
+    height: 100dvh;
+    overflow: hidden;
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     color: #ffffff;
-    overflow: hidden;
+    background: #1a230f;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background: #1a230f;
 }
 
-/* 1. Video Background */
+/* =================================================
+   LAYER 1: VIDEO BACKGROUND
+================================================= */
 .video-container {
     position: fixed;
     inset: 0;
     z-index: 0;
-    background-color: #1a230f;
 }
 
 #bg-video {
@@ -32,17 +38,41 @@ body, html {
     object-fit: cover;
 }
 
-/* 2. The Main Overlay Container */
+/* =================================================
+   LAYER 2: OVERLAY (GRADIENT)
+================================================= */
 .overlay {
-    height: 100vh;
-    height: 100dvh;
-    width: 100%;
-    position: relative;
+    position: fixed;
+    inset: 0;
     z-index: 1;
-    background: rgba(0, 0, 0, 0.1); 
 }
 
-/* 3. Dead-Center Positioning for "COMING SOON" */
+/* soft cinematic gradient */
+.overlay::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(0,0,0,0.15),
+        rgba(0,0,0,0.35)
+    );
+    pointer-events: none;
+}
+
+/* =================================================
+   LAYER 3: CONTENT
+================================================= */
+.content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+}
+
+/* =================================================
+   CENTER TEXT
+================================================= */
 .top-section {
     position: absolute;
     top: 50%;
@@ -50,7 +80,6 @@ body, html {
     transform: translate(-50%, -50%);
     text-align: center;
     width: 100%;
-    z-index: 2;
 }
 
 .coming-soon {
@@ -60,7 +89,9 @@ body, html {
     text-transform: uppercase;
 }
 
-/* 4. Desktop Footer Row */
+/* =================================================
+   FOOTER (DESKTOP)
+================================================= */
 .footer-row {
     position: absolute;
     bottom: 60px;
@@ -76,7 +107,8 @@ body, html {
     height: auto;
 }
 
-.tagline, .email-link {
+.tagline,
+.email-link {
     font-size: 0.75rem;
     letter-spacing: 0.10em;
     font-weight: 500;
@@ -86,52 +118,32 @@ body, html {
 .email-link {
     color: #ffffff;
     text-decoration: none;
-    display: block; /* Ensures email sits on its own line on mobile if needed */
 }
 
-/* --- MOBILE LAYOUT (1024px) --- */
+/* =================================================
+   MOBILE
+================================================= */
 @media (max-width: 1024px) {
-    
+
     .tagline {
         position: absolute;
         top: calc(40px + env(safe-area-inset-top));
         left: 40px;
-        text-align: left;
-        margin: 0;
-        font-size: 0.75rem;
     }
 
     .email-link {
         position: absolute;
         top: calc(58px + env(safe-area-inset-top));
         left: 40px;
-        text-align: left;
-        margin: 0;
-        font-size: 0.75rem;
     }
 
-    /* 3. Pin Logo to Bottom Left */
     .main-logo {
         position: absolute;
         bottom: calc(40px + env(safe-area-inset-bottom));
         left: 40px;
         max-width: 300px;
-        z-index: 5;
     }
 
-    /* 4. Coming Soon stays dead-center */
-    /* Since its desktop code is already absolute/50%/50%, 
-       it will stay centered unless we tell it otherwise. */
-    .top-section {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 100%;
-        text-align: center;
-    }
-    
-    /* Ensure the footer-row container itself doesn't block clicks */
     .footer-row {
         position: static;
         display: block;
